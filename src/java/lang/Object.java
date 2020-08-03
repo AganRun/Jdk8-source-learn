@@ -552,5 +552,5 @@ public class Object {
      * @see java.lang.ref.PhantomReference
      * @jls 12.6 Finalization of Class Instances
      */
-    protected void finalize() throws Throwable { }
+    protected void finalize() throws Throwable { }  //类似于C语言的析构函数，但绝不等同于析构函数。垃圾回收时被调用。JAVA可以调用native本地方法，而C、C++中的析构函数可以由此调用。但是垃圾回收的条件是内存不足，
 }
