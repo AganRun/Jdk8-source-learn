@@ -120,9 +120,9 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
      */
     private void ensureCapacityInternal(int minimumCapacity) {
         // overflow-conscious code
-        if (minimumCapacity - value.length > 0) {
+        if (minimumCapacity - value.length > 0) {   //扩容时机：确认容量不够时
             value = Arrays.copyOf(value,
-                    newCapacity(minimumCapacity));
+                    newCapacity(minimumCapacity));  //扩容方法
         }
     }
 
@@ -145,9 +145,9 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
      * @throws OutOfMemoryError if minCapacity is less than zero or
      *         greater than Integer.MAX_VALUE
      */
-    private int newCapacity(int minCapacity) {
+    private int newCapacity(int minCapacity) {  //扩容方法
         // overflow-conscious code
-        int newCapacity = (value.length << 1) + 2;
+        int newCapacity = (value.length << 1) + 2;  //扩容策略，2倍＋2。 为什么要＋2呢？append()之后，我们一般会在后面在加上一个分隔符，例如逗号，也就是再加上一个char，而char在java中占2个字节，避免了因为添加分隔符而再次引起扩容
         if (newCapacity - minCapacity < 0) {
             newCapacity = minCapacity;
         }
