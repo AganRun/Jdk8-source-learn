@@ -121,7 +121,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
     private void ensureCapacityInternal(int minimumCapacity) {
         // overflow-conscious code
         if (minimumCapacity - value.length > 0) {   //扩容时机：确认容量不够时
-            value = Arrays.copyOf(value,
+            value = Arrays.copyOf(value,        //note:System.arraycopy深度拷贝，将数组value阔容
                     newCapacity(minimumCapacity));  //扩容方法
         }
     }
