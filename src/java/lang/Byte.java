@@ -79,7 +79,7 @@ public final class Byte extends Number implements Comparable<Byte> {
 
         static final Byte cache[] = new Byte[-(-128) + 127 + 1];
 
-        static {
+        static {          //note:启动时初始化，内部缓存数组。
             for(int i = 0; i < cache.length; i++)
                 cache[i] = new Byte((byte)(i - 128));
         }
@@ -286,7 +286,7 @@ public final class Byte extends Number implements Comparable<Byte> {
      *
      * @serial
      */
-    private final byte value;
+    private final byte value;   //note:8个字节的有符号二进制数
 
     /**
      * Constructs a newly allocated {@code Byte} object that
