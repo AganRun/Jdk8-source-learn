@@ -70,7 +70,7 @@ import sun.security.util.SecurityConstants;
  *     method.
  * </ul>
  * <p>
- * There are two ways to create a new thread of execution. One is to
+ * There are two ways to create a new thread of execution. One is to    //note:JDK明确说明只有两种方式创建一个线程，1. 继承Thread类，实现Run方法 2. 实现Runnable接口
  * declare a class to be a subclass of <code>Thread</code>. This
  * subclass should override the <code>run</code> method of class
  * <code>Thread</code>. An instance of the subclass can then be
@@ -154,7 +154,7 @@ class Thread implements Runnable {
     private boolean     single_step;
 
     /* Whether or not the thread is a daemon thread. */
-    private boolean     daemon = false;
+    private boolean     daemon = false;     //note:是否是一个守护线程
 
     /* JVM state */
     private boolean     stillborn = false;
@@ -173,7 +173,7 @@ class Thread implements Runnable {
 
     /* For autonumbering anonymous threads. */
     private static int threadInitNumber;
-    private static synchronized int nextThreadNum() {
+    private static synchronized int nextThreadNum() {   //note:创建下一个线程号，加锁
         return threadInitNumber++;
     }
 
@@ -244,7 +244,7 @@ class Thread implements Runnable {
     /**
      * The minimum priority that a thread can have.
      */
-    public final static int MIN_PRIORITY = 1;
+    public final static int MIN_PRIORITY = 1;   //note:线程的三种优先级
 
    /**
      * The default priority that is assigned to a thread.
@@ -365,14 +365,14 @@ class Thread implements Runnable {
     private void init(ThreadGroup g, Runnable target, String name,
                       long stackSize, AccessControlContext acc,
                       boolean inheritThreadLocals) {
-        if (name == null) {
+        if (name == null) { //note：名字自动或指定
             throw new NullPointerException("name cannot be null");
         }
 
         this.name = name;
 
-        Thread parent = currentThread();
-        SecurityManager security = System.getSecurityManager();
+        Thread parent = currentThread();    //note:新线程记录下当前线程下，作为子线程
+        SecurityManager security = System.getSecurityManager(); //note:拿到系统管理类
         if (g == null) {
             /* Determine if it's an applet or not */
 
@@ -445,7 +445,7 @@ class Thread implements Runnable {
      * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
      */
     public Thread() {
-        init(null, null, "Thread-" + nextThreadNum(), 0);
+        init(null, null, "Thread-" + nextThreadNum(), 0);  //note:name是自动生成的。Thread+线程号（增加方法加锁）
     }
 
     /**
@@ -714,8 +714,8 @@ class Thread implements Runnable {
 
         boolean started = false;
         try {
-            start0();
-            started = true;
+            start0();       //note:实际的线程启动由本地方法完成
+            started = true; //note:设置状态
         } finally {
             try {
                 if (!started) {
@@ -911,7 +911,7 @@ class Thread implements Runnable {
      * @revised 6.0
      * @spec JSR-51
      */
-    public void interrupt() {
+    public void interrupt() {   //note:向线程发出重断请求。（如果线程是wait、join、sleep状态，会报错InterruptedException）
         if (this != Thread.currentThread())
             checkAccess();
 
@@ -1249,7 +1249,7 @@ class Thread implements Runnable {
 
         if (millis == 0) {
             while (isAlive()) {
-                wait(0);
+                wait(0);    //note:内部调用wait方法，等待线程执行结束
             }
         } else {
             while (isAlive()) {
@@ -1739,7 +1739,7 @@ class Thread implements Runnable {
      * @since   1.5
      * @see #getState
      */
-    public enum State {
+    public enum State {     //note:线程的多种状态
         /**
          * Thread state for a thread which has not yet started.
          */

@@ -96,14 +96,14 @@ import java.util.Arrays;
  */
  public final class StringBuffer
     extends AbstractStringBuilder
-    implements java.io.Serializable, CharSequence
+    implements java.io.Serializable, CharSequence   //note:线程安全，与StringBuilder共同继承AbstractStringBuilder
 {
 
     /**
      * A cache of the last value returned by toString. Cleared
      * whenever the StringBuffer is modified.
      */
-    private transient char[] toStringCache;
+    private transient char[] toStringCache; //note:每次更新操作会清空这个缓存。不然toString可以重复调用
 
     /** use serialVersionUID from JDK 1.0.2 for interoperability */
     static final long serialVersionUID = 3388685877147921107L;
@@ -664,7 +664,7 @@ import java.util.Arrays;
     }
 
     @Override
-    public synchronized String toString() {
+    public synchronized String toString() { //note:toStringCache的作用：如果多次重复访问toString方法，提高速度
         if (toStringCache == null) {
             toStringCache = Arrays.copyOfRange(value, 0, count);
         }
