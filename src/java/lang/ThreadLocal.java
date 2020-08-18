@@ -158,7 +158,7 @@ public class ThreadLocal<T> {
      */
     public T get() {
         Thread t = Thread.currentThread();
-        ThreadLocalMap map = getMap(t);
+        ThreadLocalMap map = getMap(t); //note:拿到当前线程的局部变量
         if (map != null) {
             ThreadLocalMap.Entry e = map.getEntry(this);
             if (e != null) {
@@ -177,7 +177,7 @@ public class ThreadLocal<T> {
      * @return the initial value
      */
     private T setInitialValue() {
-        T value = initialValue();
+        T value = initialValue();   //note：初始化值
         Thread t = Thread.currentThread();
         ThreadLocalMap map = getMap(t);
         if (map != null)
@@ -198,11 +198,11 @@ public class ThreadLocal<T> {
      */
     public void set(T value) {
         Thread t = Thread.currentThread();
-        ThreadLocalMap map = getMap(t);
+        ThreadLocalMap map = getMap(t); //note:ThreadLocal并不存储数据，数据存储在线程的ThreadLocalMap中
         if (map != null)
             map.set(this, value);
         else
-            createMap(t, value);
+            createMap(t, value);    //第一次存入
     }
 
     /**
@@ -318,18 +318,18 @@ public class ThreadLocal<T> {
         /**
          * The initial capacity -- MUST be a power of two.
          */
-        private static final int INITIAL_CAPACITY = 16;
+        private static final int INITIAL_CAPACITY = 16; //note:初始化长度，必须是2的指数
 
         /**
          * The table, resized as necessary.
          * table.length MUST always be a power of two.
          */
-        private Entry[] table;
+        private Entry[] table;  //note:存储位置
 
         /**
          * The number of entries in the table.
          */
-        private int size = 0;
+        private int size = 0; //note:长度
 
         /**
          * The next size value at which to resize.
@@ -341,7 +341,7 @@ public class ThreadLocal<T> {
          */
         private void setThreshold(int len) {
             threshold = len * 2 / 3;
-        }
+        }   //note:负载因子
 
         /**
          * Increment i modulo len.
@@ -411,7 +411,7 @@ public class ThreadLocal<T> {
          * @return the entry associated with key, or null if no such
          */
         private Entry getEntry(ThreadLocal<?> key) {
-            int i = key.threadLocalHashCode & (table.length - 1);
+            int i = key.threadLocalHashCode & (table.length - 1);   //note:hash+&，获得存储索引
             Entry e = table[i];
             if (e != null && e.get() == key)
                 return e;
