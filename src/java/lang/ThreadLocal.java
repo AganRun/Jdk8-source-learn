@@ -216,7 +216,7 @@ public class ThreadLocal<T> {
      *
      * @since 1.5
      */
-     public void remove() {
+     public void remove() { //note:移除副本变量值
          ThreadLocalMap m = getMap(Thread.currentThread());
          if (m != null)
              m.remove(this);
@@ -305,7 +305,7 @@ public class ThreadLocal<T> {
          * entry can be expunged from table.  Such entries are referred to
          * as "stale entries" in the code that follows.
          */
-        static class Entry extends WeakReference<ThreadLocal<?>> {
+        static class Entry extends WeakReference<ThreadLocal<?>> {  //note:弱引用，key只能活到下次GC
             /** The value associated with this ThreadLocal. */
             Object value;
 
@@ -346,7 +346,7 @@ public class ThreadLocal<T> {
         /**
          * Increment i modulo len.
          */
-        private static int nextIndex(int i, int len) {
+        private static int nextIndex(int i, int len) { //note:定步长后移解决hash冲突
             return ((i + 1 < len) ? i + 1 : 0);
         }
 
@@ -467,12 +467,12 @@ public class ThreadLocal<T> {
                  e = tab[i = nextIndex(i, len)]) {
                 ThreadLocal<?> k = e.get();
 
-                if (k == key) {
+                if (k == key) { //note:hash相同，存入value返回。
                     e.value = value;
                     return;
                 }
 
-                if (k == null) {
+                if (k == null) {    //note:
                     replaceStaleEntry(key, value, i);
                     return;
                 }
