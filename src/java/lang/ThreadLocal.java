@@ -480,14 +480,14 @@ public class ThreadLocal<T> {
 
             tab[i] = new Entry(key, value);
             int sz = ++size;
-            if (!cleanSomeSlots(i, sz) && sz >= threshold)  //note:没有删除过期条目，并且超过了扩容边界
-                rehash();
+            if (!cleanSomeSlots(i, sz) && sz >= threshold)  //note:没有清理元素，并且长度超过了扩容阀值
+                rehash();   //note:重新调整表,如果没有该清理的元素或者清理后还是不够，扩容两倍
         }
 
         /**
          * Remove the entry for key.
          */
-        private void remove(ThreadLocal<?> key) {
+        private void remove(ThreadLocal<?> key) {   //note:清除Entry数组中键值为Key的元素
             Entry[] tab = table;
             int len = tab.length;
             int i = key.threadLocalHashCode & (len-1);
@@ -658,7 +658,7 @@ public class ThreadLocal<T> {
                     removed = true;
                     i = expungeStaleEntry(i);
                 }
-            } while ( (n >>>= 1) != 0); //note:n无符号右移1位，然后赋值给n
+            } while ( (n >>>= 1) != 0);
             return removed;
         }
 
