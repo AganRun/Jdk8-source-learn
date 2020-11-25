@@ -1,4 +1,4 @@
-package test.classLoader.MyClassLoader;
+package test.classLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,14 +23,14 @@ public class MyClassLoader {
                 }
             }
         };
-        Object obj = myLoader.loadClass("test.classLoader.MyClassLoader.MyClassLoader").newInstance();
+        Object obj = myLoader.loadClass("test.classLoader.MyClassLoader").newInstance();
         System.out.println(obj.getClass());
-        System.out.println(obj instanceof test.classLoader.MyClassLoader.MyClassLoader);
+        System.out.println(obj instanceof test.classLoader.MyClassLoader);
 
         System.out.println("==============");
 
-        Object obj2 = MyClassLoader.class.getClassLoader().loadClass("test.classLoader.MyClassLoader.MyClassLoader").newInstance();
+        Object obj2 = MyClassLoader.class.getClassLoader().loadClass("test.classLoader.MyClassLoader").newInstance();
         System.out.println(obj2);
-        System.out.println(obj2 instanceof test.classLoader.MyClassLoader.MyClassLoader);
+        System.out.println(obj2 instanceof test.classLoader.MyClassLoader);
     }
 }
